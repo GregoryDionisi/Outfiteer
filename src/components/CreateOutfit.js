@@ -284,7 +284,6 @@ export default function CreateOutfit() {
           <ambientLight intensity={1} />
           <OrbitControls enablePan={false} minDistance={1} maxDistance={6} />
           <Suspense fallback={null}>
-            <Male />
             {selectedItems.pants === 'Baggy Jeans' && <BaggyJeans />}
             {selectedItems.pants === 'Cargo Jeans' && <CargoJeans />}
             {selectedItems.shoes === 'Air Force 1' && <AirForce />}
