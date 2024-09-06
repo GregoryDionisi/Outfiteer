@@ -15,6 +15,7 @@ export default function CreateOutfit() {
   const [priceRange, setPriceRange] = useState([0, 200]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [itemStyles, setItemStyles] = useState({
     shirts: { top: '10%', left: '10%', width: '30%', height: '30%' },
     pants: { top: '40%', left: '10%', width: '30%', height: '30%' },
@@ -39,18 +40,11 @@ export default function CreateOutfit() {
   }, [activeCategory]);
 
   const handleSelect = (category, item) => {
-    setSelectedItems((prevState) => {
-      const newSelectedItems = { ...prevState };
-      if (newSelectedItems[category]?.includes(item.name)) {
-        newSelectedItems[category] = newSelectedItems[category].filter(name => name !== item.name);
-      } else {
-        if (!newSelectedItems[category]) {
-          newSelectedItems[category] = [];
-        }
-        newSelectedItems[category].push(item.name);
-      }
-      return newSelectedItems;
-    });
+    setSelectedItems((prevState) => ({
+      ...prevState,
+      [category]: prevState[category] === item.name ? null : item.name,
+    }));
+    setSelectedImage(item.image); // Aggiorna lo stato dell'immagine selezionata
   };
 
   const handleSaveOutfit = () => {
@@ -130,7 +124,7 @@ export default function CreateOutfit() {
           },
           marginLeft: '1%',
         }}
-        className={`category-box ${selectedItems[activeCategory]?.includes(item.name) ? 'selected' : ''}`}
+        className={`category-box ${selectedItems[activeCategory] === item.name ? 'selected' : ''}`}
         onClick={() => handleSelect(activeCategory, item)}
       >
         <img 
@@ -160,43 +154,6 @@ export default function CreateOutfit() {
         </Button>
       </Box>
     ));
-  };
-
-  const renderSelectedItems = () => {
-    return Object.keys(selectedItems).flatMap(category => 
-      (selectedItems[category] || []).map(itemName => {
-        const item = items.find(i => i.name === itemName);
-        if (item) {
-          const style = itemStyles[category] || {};
-          return (
-            <Box
-              key={item._id}
-              sx={{
-                position: 'absolute',
-                top: style.top,
-                left: style.left,
-                width: style.width,
-                height: style.height,
-                borderRadius: '15px',
-                overflow: 'hidden',
-              }}
-            >
-              <img 
-                src={item.image} 
-                alt={item.name}
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover', 
-                  borderRadius: '15px' 
-                }} 
-              />
-            </Box>
-          );
-        }
-        return null;
-      })
-    );
   };
 
   return (
@@ -292,27 +249,39 @@ export default function CreateOutfit() {
                   max={500} 
                   sx={{ width: 200 }}
                 />
+              </div>
+              <div>
                 <h4>Colors</h4>
-                <div>
-                  {['white', 'lightblue', 'black', 'red'].map(color => (
-                    <FormControlLabel
-                      key={color}
-                      control={
-                        <Checkbox
-                          checked={selectedColors.includes(color)}
-                          onChange={() => handleColorChange(color)}
-                        />
-                      }
-                      label={color}
-                    />
-                  ))}
-                </div>
+                {['black', 'white', 'red', 'blue', 'lightblue'].map((color) => (
+                  <FormControlLabel
+                    key={color}
+                    control={
+                      <Checkbox
+                        checked={selectedColors.includes(color)}
+                        onChange={() => handleColorChange(color)}
+                        name={color}
+                        sx={{ color }}
+                      />
+                    }
+                    label={color}
+                  />
+                ))}
               </div>
             </Box>
           </Fade>
         </div>
         <Box className="canvas-container">
-          {renderSelectedItems()}
+          {selectedImage && (
+            <img 
+              src={selectedImage} 
+              alt="Selected Item" 
+              style={{ 
+                width: '100%', 
+                height: 'auto', 
+                objectFit: 'contain' 
+              }} 
+            />
+          )}
         </Box>
       </div>
     </ThemeProvider>
