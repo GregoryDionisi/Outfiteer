@@ -1,6 +1,4 @@
-import React, { useState, useContext, useEffect, Suspense, useRef } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment } from '@react-three/drei';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Box, Button, ThemeProvider, Alert, Slider, Checkbox, FormControlLabel, Fade } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
 import theme from './Theme';
@@ -8,27 +6,24 @@ import './CreateOutfit.css';
 import { OutfitContext } from './OutfitContext';
 import axios from 'axios';
 
-import Male from './model3D/Male';
-import AirForce from './model3D/AirForce';
-import Jordan4 from './model3D/Jordan4';
-import BaggyJeans from './model3D/BaggyJeans';
-import CargoJeans from './model3D/CargoJeans';
-import Cap from './model3D/Cap';
-import RayBan from './model3D/RayBan';
-import RayBan1 from './model3D/RayBan1';
-import TankTop from './model3D/TankTop';
-
 export default function CreateOutfit() {
   const { saveOutfit } = useContext(OutfitContext);
   const [selectedItems, setSelectedItems] = useState({});
   const [activeCategory, setActiveCategory] = useState('shirts');
   const [showAlert, setShowAlert] = useState(false);
   const [items, setItems] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 200]); 
+  const [priceRange, setPriceRange] = useState([0, 200]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
-  const filtersRef = useRef(null); 
-  const iconRef = useRef(null); 
+  const [itemStyles, setItemStyles] = useState({
+    shirts: { top: '10%', left: '10%', width: '30%', height: '30%' },
+    pants: { top: '40%', left: '10%', width: '30%', height: '30%' },
+    shoes: { top: '70%', left: '10%', width: '30%', height: '30%' },
+    hats: { top: '0%', left: '0%', width: '20%', height: '20%' },
+    glasses: { top: '10%', left: '20%', width: '30%', height: '20%' }
+  });
+  const filtersRef = useRef(null);
+  const iconRef = useRef(null);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -39,15 +34,23 @@ export default function CreateOutfit() {
         console.error("Error fetching items:", error);
       }
     };
-  
+
     fetchItems();
   }, [activeCategory]);
 
   const handleSelect = (category, item) => {
-    setSelectedItems((prevState) => ({
-      ...prevState,
-      [category]: prevState[category] === item ? null : item,
-    }));
+    setSelectedItems((prevState) => {
+      const newSelectedItems = { ...prevState };
+      if (newSelectedItems[category]?.includes(item.name)) {
+        newSelectedItems[category] = newSelectedItems[category].filter(name => name !== item.name);
+      } else {
+        if (!newSelectedItems[category]) {
+          newSelectedItems[category] = [];
+        }
+        newSelectedItems[category].push(item.name);
+      }
+      return newSelectedItems;
+    });
   };
 
   const handleSaveOutfit = () => {
@@ -71,27 +74,23 @@ export default function CreateOutfit() {
       setSelectedColors([...selectedColors, color]);
     }
   };
-  
 
   const toggleFilters = () => {
-    setShowFilters((prev) => !prev); //viene invertito lo stato di showFilters
+    setShowFilters((prev) => !prev);
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Verifica se il clic è fuori dalla finestra dei filtri e dall'icona
       if (
         filtersRef.current && !filtersRef.current.contains(event.target) &&
         iconRef.current && !iconRef.current.contains(event.target)
       ) {
-        setShowFilters(false); // Chiude i filtri se clicchi fuori
+        setShowFilters(false);
       }
     };
 
-    // Aggiungi il listener quando il componente viene montato
     document.addEventListener('mousedown', handleClickOutside);
     
-    // Rimuovi il listener quando il componente viene smontato
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -101,18 +100,16 @@ export default function CreateOutfit() {
     if (!items || items.length === 0) {
       return <div>No items found for this category.</div>;
     }
-  
+
     const filteredItems = items.filter((item) => {
-      // Verifica il prezzo
       const isPriceInRange = item.price >= priceRange[0] && item.price <= priceRange[1];
-  
-      // Verifica se i colori selezionati sono presenti nella stringa color dell'item
+
       const isColorMatch = selectedColors.length === 0 || 
         selectedColors.some(color => item.color.split(', ').includes(color));
-  
+
       return isPriceInRange && isColorMatch;
     });
-  
+
     return filteredItems.map((item) => (
       <Box
         key={item._id}
@@ -133,8 +130,8 @@ export default function CreateOutfit() {
           },
           marginLeft: '1%',
         }}
-        className={`category-box ${selectedItems[activeCategory] === item.name ? 'selected' : ''}`}
-        onClick={() => handleSelect(activeCategory, item.name)}
+        className={`category-box ${selectedItems[activeCategory]?.includes(item.name) ? 'selected' : ''}`}
+        onClick={() => handleSelect(activeCategory, item)}
       >
         <img 
           src={item.image} 
@@ -164,7 +161,43 @@ export default function CreateOutfit() {
       </Box>
     ));
   };
-  
+
+  const renderSelectedItems = () => {
+    return Object.keys(selectedItems).flatMap(category => 
+      (selectedItems[category] || []).map(itemName => {
+        const item = items.find(i => i.name === itemName);
+        if (item) {
+          const style = itemStyles[category] || {};
+          return (
+            <Box
+              key={item._id}
+              sx={{
+                position: 'absolute',
+                top: style.top,
+                left: style.left,
+                width: style.width,
+                height: style.height,
+                borderRadius: '15px',
+                overflow: 'hidden',
+              }}
+            >
+              <img 
+                src={item.image} 
+                alt={item.name}
+                style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  objectFit: 'cover', 
+                  borderRadius: '15px' 
+                }} 
+              />
+            </Box>
+          );
+        }
+        return null;
+      })
+    );
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -198,12 +231,12 @@ export default function CreateOutfit() {
             <div className="toolbar">
               {['shirts', 'pants', 'shoes', 'hats', 'glasses'].map((key) => (
                 <Button 
-                key={key} 
-                onClick={() => setActiveCategory(key)} 
-                variant={activeCategory === key ? "contained" : "text"}
-              >
-                {key[0].toUpperCase() + key.slice(1)}
-              </Button>
+                  key={key} 
+                  onClick={() => setActiveCategory(key)} 
+                  variant={activeCategory === key ? "contained" : "text"}
+                >
+                  {key[0].toUpperCase() + key.slice(1)}
+                </Button>
               ))}
             </div>
           </div>
@@ -226,7 +259,7 @@ export default function CreateOutfit() {
         </div>
         <div className='side-content'>
           <TuneIcon 
-          ref={iconRef}
+            ref={iconRef}
             onClick={toggleFilters}
             sx={{
               color: 'background.default',
@@ -237,7 +270,7 @@ export default function CreateOutfit() {
           />
           <Fade in={showFilters}>
             <Box 
-            ref={filtersRef}
+              ref={filtersRef}
               sx={{ 
                 position: 'absolute', 
                 top: '10%', 
@@ -259,42 +292,28 @@ export default function CreateOutfit() {
                   max={500} 
                   sx={{ width: 200 }}
                 />
-              </div>
-              <div>
                 <h4>Colors</h4>
-                {['black', 'white', 'red', 'blue', 'lightblue'].map((color) => (
-                  <FormControlLabel
-                    key={color}
-                    control={
-                      <Checkbox
-                        checked={selectedColors.includes(color)}
-                        onChange={() => handleColorChange(color)}
-                        name={color}
-                        sx={{ color }}
-                      />
-                    }
-                    label={color}
-                  />
-                ))}
+                <div>
+                  {['white', 'lightblue', 'black', 'red'].map(color => (
+                    <FormControlLabel
+                      key={color}
+                      control={
+                        <Checkbox
+                          checked={selectedColors.includes(color)}
+                          onChange={() => handleColorChange(color)}
+                        />
+                      }
+                      label={color}
+                    />
+                  ))}
+                </div>
               </div>
             </Box>
           </Fade>
         </div>
-        <Canvas className="canvas-container">
-          <ambientLight intensity={1} />
-          <OrbitControls enablePan={false} minDistance={1} maxDistance={6} />
-          <Suspense fallback={null}>
-            {selectedItems.pants === 'Baggy Jeans' && <BaggyJeans />}
-            {selectedItems.pants === 'Cargo Jeans' && <CargoJeans />}
-            {selectedItems.shoes === 'Air Force 1' && <AirForce />}
-            {selectedItems.shoes === 'Jordan 4' && <Jordan4 />}
-            {selectedItems.hats === 'Cap' && <Cap />}
-            {selectedItems.glasses === 'RayBan New Wayfarer' && <RayBan />}
-            {selectedItems.glasses === 'RayBan Round Metal' && <RayBan1 />}
-            {selectedItems.shirts === 'Tank Top' && <TankTop />}
-            <Environment preset="sunset" />
-          </Suspense>
-        </Canvas>
+        <Box className="canvas-container">
+          {renderSelectedItems()}
+        </Box>
       </div>
     </ThemeProvider>
   );
