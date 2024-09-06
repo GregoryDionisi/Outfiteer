@@ -1,0 +1,11 @@
+Model Information:
+* title:	VETEMENTS Cargo Jeans / Wide-Leg Track Pants
+* source:	https://sketchfab.com/3d-models/vetements-cargo-jeans-wide-leg-track-pants-a9067eecf6d24e75bdf28345027e7552
+* author:	RICHIExGOLDBERG (https://sketchfab.com/RICHIExGOLDBERG)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "VETEMENTS Cargo Jeans / Wide-Leg Track Pants" (https://sketchfab.com/3d-models/vetements-cargo-jeans-wide-leg-track-pants-a9067eecf6d24e75bdf28345027e7552) by RICHIExGOLDBERG (https://sketchfab.com/RICHIExGOLDBERG) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

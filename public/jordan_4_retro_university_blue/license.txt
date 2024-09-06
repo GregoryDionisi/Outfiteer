@@ -1,0 +1,11 @@
+Model Information:
+* title:	Jordan 4 Retro University Blue
+* source:	https://sketchfab.com/3d-models/jordan-4-retro-university-blue-68f32cad08544592aafd56a1ac7c60bc
+* author:	ShoesPlug (https://sketchfab.com/ShoesPlug)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Jordan 4 Retro University Blue" (https://sketchfab.com/3d-models/jordan-4-retro-university-blue-68f32cad08544592aafd56a1ac7c60bc) by ShoesPlug (https://sketchfab.com/ShoesPlug) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

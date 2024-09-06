@@ -1,0 +1,11 @@
+Model Information:
+* title:	New WayFarer | Rayban
+* source:	https://sketchfab.com/3d-models/new-wayfarer-rayban-9ee5cc7674134b53887064a85f34f605
+* author:	Driss Elmeloud (https://sketchfab.com/elmeloud.driss)
+
+Model License:
+* license type:	CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions must have the same license.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "New WayFarer | Rayban" (https://sketchfab.com/3d-models/new-wayfarer-rayban-9ee5cc7674134b53887064a85f34f605) by Driss Elmeloud (https://sketchfab.com/elmeloud.driss) licensed under CC-BY-NC-SA-4.0 (http://creativecommons.org/licenses/by-nc-sa/4.0/)

@@ -1,0 +1,152 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@font-face {
+  font-family: 'FS Kim Black';
+  src: url('./assets/fonts/FSKimTrial-Black.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'FS Kim Heavy';
+  src: url('./assets/fonts/FSKimTrial-Heavy.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'FS Kim Bold';
+  src: url('./assets/fonts/FSKimTrial-Bold.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'FS Kim Medium';
+  src: url('./assets/fonts/FSKimTrial-Medium.otf') format('truetype');
+}
+
+body {
+  font-family: 'FS Kim Black', sans-serif;
+}
+
+.canvas-parallax-right {
+  position: relative;
+  height: 100%;
+  border-radius: 15px;
+  margin-left: 55vw;
+}
+
+.canvas-parallax-left {
+  position: relative;
+  height: 100%;
+  border-radius: 15px;
+  margin-right: 55vw;
+}
+
+/* Classe per mantenere lo stato finale dell'animazione SVG */
+.logo-animated {
+  animation: none; /* Disabilita le animazioni */
+  fill: #13665D; /* Colore finale del riempimento */
+}
+
+#logo {
+  text-align: center;
+  font-size: 6vw;
+  opacity: 1;
+  position: relative; /* Essenziale per permettere il movimento con translateY */
+  left: 0;
+  top: 45vh; /* Inizialmente posizionato a 45vh */
+  width: 100%;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  animation: fill 0.5s ease forwards 4s; /* Animazione di riempimento */
+}
+
+#logo path:nth-child(1) {
+  stroke-dasharray: 247px;
+  stroke-dashoffset: 247px;
+  animation: line-anim 2s ease forwards 2.4s;
+}
+
+#logo path:nth-child(2) {
+  stroke-dasharray: 302px;
+  stroke-dashoffset: 302px;
+  animation: line-anim 2s ease forwards 2.1s;
+}
+
+#logo path:nth-child(3) {
+  stroke-dasharray: 302px;
+  stroke-dashoffset: 302px;
+  animation: line-anim 2s ease forwards 1.8s;
+}
+
+#logo path:nth-child(4) {
+  stroke-dasharray: 268px;
+  stroke-dashoffset: 268px;
+  animation: line-anim 2s ease forwards 1.5s;
+}
+
+#logo path:nth-child(5) {
+  stroke-dasharray: 288px;
+  stroke-dashoffset: 288px;
+  animation: line-anim 2s ease forwards 1.2s;
+}
+
+#logo path:nth-child(6) {
+  stroke-dasharray: 351px;
+  stroke-dashoffset: 351px;
+  animation: line-anim 2s ease forwards 0.9s;
+}
+
+#logo path:nth-child(7) {
+  stroke-dasharray: 268px;
+  stroke-dashoffset: 268px;
+  animation: line-anim 2s ease forwards 0.6s;
+}
+
+#logo path:nth-child(8) {
+  stroke-dasharray: 351px;
+  stroke-dashoffset: 351px;
+  animation: line-anim 2s ease forwards 0.3s;
+}
+
+#logo path:nth-child(9) {
+  stroke-dasharray: 404px;
+  stroke-dashoffset: 404px;
+  animation: line-anim 2s ease forwards;
+}
+
+/* Animazione SVG */
+@keyframes line-anim {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fill {
+  from {
+    fill: transparent;
+  }
+  to {
+    fill: #13665D;
+  }
+}
+
+/* Disabilita le interazioni e impedisce lo scroll senza nascondere la scrollbar */
+.animating {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.animating ::-webkit-scrollbar {
+  display: block; /* Mostra la scrollbar su Webkit (Chrome, Safari) */
+}
+

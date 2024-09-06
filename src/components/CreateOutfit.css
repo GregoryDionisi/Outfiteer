@@ -1,0 +1,122 @@
+.container {
+  display: flex;
+  height: 85vh;
+  margin-top: 30px;
+}
+
+.menu-content {
+  background-color: rgba(19, 102, 93, 0.9);
+  border-radius: 15px 0px 0px 15px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  margin-left: 20px;
+  width: 45vw;
+  position: relative;
+}
+
+.side-content {
+  background-color: rgba(19, 102, 93, 0.9);
+  border-radius: 0px 15px 15px 0px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  width: 5vw;
+  position: relative;
+}
+
+.canvas-container {
+  flex: 1;
+  position: relative;
+  height: 100%;
+  border-radius: 15px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.toolbar-container {
+  background-color: #FFFDD0;
+  border-radius: 15px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-around;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    margin-top: 0;
+  }
+
+  .menu-content {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 20px;
+  }
+}
+@font-face {
+  font-family: 'FS Kim Bold';
+  src: url('../assets/fonts/FSKimTrial-Black.otf') format('truetype');
+}
+.toolbar button {
+  font-family: 'FS Kim Bold';
+}
+
+.canvas-categories {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70%; /* Prova a ridurre ulteriormente */
+  z-index: 1;
+}
+
+.canvas-text {
+  position: absolute;
+  bottom: 10px;
+  width: 20vh;
+  z-index: 2; /* Assicurati che sia sopra il canvas */
+}
+
+
+.save-button-container {
+  position: absolute; /* Posiziona il contenitore rispetto al menu-content */
+  bottom: 20px; /* Distanza dal fondo del menu-content */
+  right: 20px; /* Distanza dal bordo destro del menu-content */
+  display: inline-flex; /* Adatta il contenitore alla dimensione del bottone */
+  justify-content: center; /* Centra il bottone all'interno del contenitore */
+  padding: 0; /* Rimuove il padding per evitare spazio extra */
+}
+
+.save-button-container button {
+  font-size: 2vh; /* Dimensione del testo del bottone */
+}
+
+@media (max-width: 768px) {
+  .save-button-container {
+    bottom: 10px; /* Riduci la distanza dal fondo su schermi più piccoli */
+    right: 10px; /* Riduci la distanza dal bordo destro su schermi più piccoli */
+    padding: 0; /* Rimuove il padding per schermi più piccoli */
+  }
+  
+  .save-button-container button {
+    font-size: 1.5vh; /* Riduci la dimensione del testo del bottone per schermi più piccoli */
+  }
+}
+
+.category-box.selected {
+  border-color: #FFD700; /* Colore del bordo quando selezionato */
+}
+
+.category-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /* Permette di andare a capo se non c'è spazio sufficiente */
+  justify-content: flex-start; /* Opzionale */
+  gap: 16px; /* Spaziatura tra le box */
+}
+
