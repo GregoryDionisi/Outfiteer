@@ -15,7 +15,7 @@ export default function CreateOutfit() {
   const [priceRange, setPriceRange] = useState([0, 200]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState({});
   const [itemStyles, setItemStyles] = useState({
     shirts: { top: '10%', left: '10%', width: '30%', height: '30%' },
     pants: { top: '40%', left: '10%', width: '30%', height: '30%' },
@@ -44,8 +44,12 @@ export default function CreateOutfit() {
       ...prevState,
       [category]: prevState[category] === item.name ? null : item.name,
     }));
-    setSelectedImage(item.image); // Aggiorna lo stato dell'immagine selezionata
+    setSelectedImage((prevState) => ({
+      ...prevState,
+      [category]: prevState[category] === item.image ? null : item.image,
+    }));    
   };
+  
 
   const handleSaveOutfit = () => {
     saveOutfit(selectedItems);
@@ -271,18 +275,24 @@ export default function CreateOutfit() {
           </Fade>
         </div>
         <Box className="canvas-container">
-          {selectedImage && (
-            <img 
-              src={selectedImage} 
-              alt="Selected Item" 
-              style={{ 
-                width: '100%', 
-                height: 'auto', 
-                objectFit: 'contain' 
-              }} 
-            />
-          )}
-        </Box>
+    {Object.keys(selectedImage).map((category) => (
+      selectedImage[category] && (
+        <img 
+          key={category} 
+          src={selectedImage[category]} 
+          alt={`Selected item from ${category}`} 
+          style={{ 
+            position: 'absolute',
+            top: itemStyles[category].top,
+            left: itemStyles[category].left,
+            width: itemStyles[category].width,
+            height: itemStyles[category].height,
+            objectFit: 'contain',
+          }} 
+        />
+      )
+    ))}
+  </Box>
       </div>
     </ThemeProvider>
   );
