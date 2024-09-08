@@ -17,11 +17,11 @@ export default function CreateOutfit() {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedImage, setSelectedImage] = useState({});
   const [itemStyles, setItemStyles] = useState({
-    shirts: { top: '10%', left: '10%', width: '30%', height: '30%' },
-    pants: { top: '40%', left: '10%', width: '30%', height: '30%' },
-    shoes: { top: '70%', left: '10%', width: '30%', height: '30%' },
-    hats: { top: '0%', left: '0%', width: '20%', height: '20%' },
-    glasses: { top: '10%', left: '20%', width: '30%', height: '20%' }
+    shirts: { top: '10%', left: '30%', width: '40%', height: '40%' },
+    pants: { top: '45%', left: '25%', width: '50%', height: '50%' },
+    shoes: { top: '85%', left: '45%', width: '20%', height: '20%' },
+    hats: { top: '-3%', left: '42.5%', width: '15%', height: '15%' },
+    glasses: { top: '7%', left: '45%', width: '10%', height: '10%' }
   });
   const filtersRef = useRef(null);
   const iconRef = useRef(null);
