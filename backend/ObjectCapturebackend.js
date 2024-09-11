@@ -12,7 +12,6 @@ app.use(cors());
 
 // Percorso della cartella che contiene le immagini caricate
 const imagesDir = path.join(__dirname, 'uploads');
-
 // Route per inviare le immagini come archivio .zip
 app.get('/download-images', (req, res) => {
     const zipFileName = 'images.zip';

@@ -40,15 +40,20 @@ export default function CreateOutfit() {
   }, [activeCategory]);
 
   const handleSelect = (category, item) => {
+    // Combina il nome e l'immagine in un unico oggetto
     setSelectedItems((prevState) => ({
       ...prevState,
-      [category]: prevState[category] === item.name ? null : item.name,
+      [category]: prevState[category]?.name === item.name 
+        ? null 
+        : { name: item.name, image: item.image },  // Salva sia il nome che l'immagine
     }));
+  
     setSelectedImage((prevState) => ({
       ...prevState,
-      [category]: prevState[category] === item.image ? null : item.image,
-    }));    
+      [category]: prevState[category] === item.image ? null : item.image,  // Puoi anche rimuovere questo se non serve più
+    }));
   };
+  
   
 
   const handleSaveOutfit = () => {

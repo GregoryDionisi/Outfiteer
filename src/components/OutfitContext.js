@@ -1,28 +1,39 @@
-// OutfitContext.js
 import React, { createContext, useState } from 'react';
 
-// Crea un contesto per gestire gli outfit
 export const OutfitContext = createContext();
 
-// Componente che fornisce il contesto agli altri componenti
 export const OutfitProvider = ({ children }) => {
-  // Stato per memorizzare la lista degli outfit
   const [outfits, setOutfits] = useState([]);
+  const [currentOutfitIndex, setCurrentOutfitIndex] = useState(null); // Indice dell'outfit da modificare
 
-  // Funzione per aggiungere un nuovo outfit alla lista
+  // Funzione per aggiungere o aggiornare un outfit
   const saveOutfit = (outfit) => {
-    // Aggiungi l'outfit alla lista esistente e aggiorna lo stato
     setOutfits((prevOutfits) => {
-      // Crea una nuova lista con gli outfit precedenti e il nuovo outfit
-      const updatedOutfits = [...prevOutfits, outfit];
-      return updatedOutfits; // Ritorna la nuova lista per aggiornare lo stato
+      if (currentOutfitIndex !== null) {
+        // Modifica l'outfit esistente
+        const updatedOutfits = [...prevOutfits];
+        updatedOutfits[currentOutfitIndex] = outfit;
+        setCurrentOutfitIndex(null);  // Reimposta l'indice dopo il salvataggio
+        return updatedOutfits;
+      } else {
+        // Aggiungi un nuovo outfit
+        return [...prevOutfits, outfit];
+      }
     });
   };
-  
 
-  // Fornisce il contesto ai componenti figli
+  // Funzione per eliminare un outfit
+  const deleteOutfit = (index) => {
+    setOutfits((prevOutfits) => prevOutfits.filter((_, i) => i !== index));
+  };
+
+  // Funzione per selezionare l'outfit da modificare
+  const editOutfit = (index) => {
+    setCurrentOutfitIndex(index);
+  };
+
   return (
-    <OutfitContext.Provider value={{ outfits, saveOutfit }}>
+    <OutfitContext.Provider value={{ outfits, saveOutfit, deleteOutfit, editOutfit }}>
       {children}
     </OutfitContext.Provider>
   );
