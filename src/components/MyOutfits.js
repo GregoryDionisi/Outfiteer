@@ -1,12 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';  // Usa il navigatore per reindirizzare
+import axios from 'axios';  // Per chiamate API
 import { OutfitContext } from './OutfitContext';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 export default function MyOutfits() {
-  const { outfits, deleteOutfit, editOutfit } = useContext(OutfitContext);
+  const { deleteOutfit, editOutfit } = useContext(OutfitContext);
+  const [outfits, setOutfits] = useState([]); // Stato locale per memorizzare gli outfit
   const [itemStyles, setItemStyles] = useState({
     shirts: { top: '10%', left: '30%', width: '40%', height: '40%' },
     pants: { top: '45%', left: '25%', width: '50%', height: '50%' },
@@ -16,13 +18,42 @@ export default function MyOutfits() {
   });
   const navigate = useNavigate(); // Usa il navigatore per reindirizzare
 
+  // Funzione per caricare gli outfit dell'utente loggato
+  const fetchUserOutfits = async () => {
+    try {
+      const token = localStorage.getItem('token'); // Recupera il token salvato
+      const response = await axios.get('/api/outfits', {
+        headers: {
+          Authorization: `Bearer ${token}` // Invia il token per autenticare la richiesta
+        }
+      });
+      setOutfits(response.data); // Imposta gli outfit dell'utente
+    } catch (err) {
+      console.error('Error fetching outfits:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserOutfits(); // Carica gli outfit una volta montato il componente
+  }, []);
+
   const handleEdit = (index) => {
     editOutfit(index);  // Imposta l'outfit da modificare
     navigate('/create-outfit');  // Reindirizza alla pagina di creazione
   };
 
-  const handleDelete = (index) => {
-    deleteOutfit(index);
+  const handleDelete = async (index) => {
+    try {
+      const token = localStorage.getItem('token'); // Recupera il token salvato
+      await axios.delete(`/api/outfits/${outfits[index]._id}`, {
+        headers: {
+          Authorization: `Bearer ${token}` // Invia il token per autenticare la richiesta
+        }
+      });
+      setOutfits(outfits.filter((_, i) => i !== index)); // Aggiorna la lista degli outfit
+    } catch (err) {
+      console.error('Error deleting outfit:', err);
+    }
   };
 
   return (

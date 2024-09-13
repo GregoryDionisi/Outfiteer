@@ -11,6 +11,8 @@ import MyOutfits from './components/MyOutfits';
 import Tappeto from './components/Tappeto';
 import Armocromia from './components/Armocromia';
 import Showroom from './components/Showroom';
+import Login from './components/Login';
+import Register from './components/Register';
 
 import CapParallax from './components/parallax/CapParallax';
 import TankTopParallax from './components/parallax/TankTopParallax';
@@ -676,7 +678,6 @@ function App() {
     <OutfitProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Router>
         <AppBar
       ref={toolbarRef}
       position="fixed"
@@ -770,18 +771,32 @@ function App() {
 <path d="M1.79999 40.3C1.79999 49.8642 4.87186 58.3073 10.8243 64.3635C16.7814 70.4244 25.5305 74 36.7 74C56.7754 74 72.2 60.3261 72.2 40.7C72.2 31.6252 69.122 23.1909 63.1831 17.0191C57.2359 10.8387 48.4898 7 37.3 7C17.2246 7 1.79999 20.6739 1.79999 40.3ZM48 53.2C48 57.8978 47.4013 61.2101 46.344 63.3134C45.8224 64.351 45.2054 65.0619 44.5229 65.5157C43.8466 65.9653 43.05 66.2 42.1 66.2C40.5322 66.2 38.7152 65.1637 36.8028 62.9975C34.9167 60.8612 33.0793 57.7806 31.4669 54.0759C28.2435 46.6695 26 36.9549 26 27.8C26 23.1022 26.5986 19.7899 27.6559 17.6866C28.1776 16.649 28.7946 15.9381 29.4771 15.4843C30.1534 15.0347 30.9499 14.8 31.9 14.8C33.4362 14.8 35.2397 15.8408 37.152 18.0271C39.0352 20.1802 40.8766 23.281 42.4956 26.9992C45.7326 34.4332 48 44.1478 48 53.2Z" stroke="#13665D" stroke-width="2"/>
           </svg>
         </Box>
+        <Button
+          className='toolBarButton'
+          style={{ pointerEvents: isAnimating ? 'none' : 'auto' }}
+            sx={{
+              marginTop: '0.5vh',
+              marginRight: '2vh',
+              opacity: 0
+            }}
+            component={Link}
+            to="/login"
+          >
+            Login
+          </Button>
       </Toolbar>
     </AppBar>
           <Toolbar />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/create-outfit" element={<CreateOutfit />} />
             <Route path="/my-outfits" element={<MyOutfits />} />
             <Route path="/tappeto" element={<Tappeto />} />
             <Route path="/armocromia" element={<Armocromia />} />
             <Route path="/showroom" element={<Showroom />} />
           </Routes>
-        </Router>
       </ThemeProvider>
     </OutfitProvider>
   );
